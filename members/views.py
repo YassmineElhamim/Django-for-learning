@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from .models import Member
+from django.db.models import Q
 
 def members(request):
     mymembers = Member.objects.all().values()
@@ -18,3 +19,25 @@ def details(request,id):
         'mymember' : mymember,
     }
     return HttpResponse(template.render(context,request))
+
+
+def main(request):
+    template = loader.get_template('main.html')
+    return HttpResponse(template.render())
+
+
+def testing(request):
+    # mydata = Member.objects.values_list('firstname')
+    # mydata = Member.objects.all()
+    # mydata = Member.objects.filter(firstname='Emil').values()
+    # mydata = Member.objects.filter(firstname='Emil').values()|Member.objects.filter(firstname='yassmine').values()
+    # mydata = Member.objects.filter(Q(firstname='Emil')|Q(firstname='yassmine')).values()
+    # mydata = Member.objects.filter(firstname__startswith='e').values()
+    mydata = Member.objects.all().order_by('id').values()
+    template = loader.get_template('template.html')
+    context = {
+        'mymembers':mydata,
+    }
+    return HttpResponse(template.render(context,request))
+
+
