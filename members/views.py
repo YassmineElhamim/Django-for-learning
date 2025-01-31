@@ -4,6 +4,11 @@ from django.template import loader
 from .models import Member
 from django.db.models import Q
 
+
+def myfirst(request):
+    template = loader.get_template('myfirst.html')
+    return HttpResponse(template.render())
+
 def members(request):
     mymembers = Member.objects.all().values()
     template = loader.get_template('all_members.html')
